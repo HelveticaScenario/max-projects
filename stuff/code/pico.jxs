@@ -1,0 +1,22 @@
+<jittershader name="default">
+	<description> Default shader </description>
+	<language name="glsl" version="1.0">	
+		<program name="vp" type="vertex">
+<![CDATA[
+void main (void)
+{
+    gl_Position = ftransform();
+	gl_FrontColor = gl_Color;
+}
+]]>		
+		</program>
+		<program name="fp" type="fragment">
+<![CDATA[
+void main()
+{	
+	gl_FragColor = gl_Color;
+} 
+]]>
+		</program>
+	</language>
+</jittershader>

@@ -1,0 +1,55 @@
+<jittershader name="default">
+	<description> Default shader </description>
+	<param name="modelViewMatrix" type="mat4" state="MODELVIEW_MATRIX" />
+	<param name="projectionMatrix" type="mat4" state="PROJECTION_MATRIX" />
+	<language name="glsl" version="4.1">
+		<bind param="modelViewMatrix" program="vp"/> 
+		<bind param="projectionMatrix" program="vp"/> 
+		<program name="vp" type="vertex">
+<![CDATA[
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+varying vec3 vViewPos;
+void main (void)
+{
+    vec4 pos = vec4(gl_Vertex.xyz, 1.0);
+	vec4 mpos = modelViewMatrix * pos;
+	gl_Position = projectionMatrix * mpos;
+	vViewPos = -mpos.xyz;
+	gl_FrontColor = gl_Color;
+
+}
+]]>		
+		</program>
+		<program name="fp" type="fragment">
+<![CDATA[
+varying vec3 vViewPos;
+varying vec3 normalEyeSpace;
+
+vec3 normals(vec3 pos) {
+  vec3 fdx = dFdx(pos);
+  vec3 fdy = dFdy(pos);
+  return normalize(cross(fdx, fdy));
+}
+
+void main()
+{	
+	vec3 normal = vec3(gl_ModelViewMatrix * vec4(normals(vViewPos),0.0));
+	float intensity;
+	vec4 color;
+	intensity = max(dot(normal, gl_LightSource[0].spotDirection.xyz), 0.0);
+
+	if (intensity > 0.95)
+		color = vec4(1.0,0.5,0.5,1.0);
+	else if (intensity > 0.5)
+		color = vec4(0.6,0.3,0.3,1.0);
+	else if (intensity > 0.25)
+		color = vec4(0.4,0.2,0.2,1.0);
+	else
+		color = vec4(0.2,0.1,0.1,1.0);
+	gl_FragColor = color;//intensity * gl_Color;
+} 
+]]>
+		</program>
+	</language>
+</jittershader>
