@@ -153,13 +153,13 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 145.0, 265.0, 75.0, 22.0 ],
+					"patching_rect" : [ 145.0, 265.0, 55.0, 22.0 ],
 					"saved_object_attributes" : 					{
-						"filename" : "pico-out.js",
+						"filename" : "pico.js",
 						"parameter_enable" : 0
 					}
 ,
-					"text" : "js pico-out.js"
+					"text" : "js pico.js"
 				}
 
 			}
