@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 806.0, 197.0, 640.0, 480.0 ],
+		"rect" : [ 910.0, 144.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -39,38 +39,39 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-13",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 467.0, 309.0, 153.0, 22.0 ],
-					"text" : "setpixel 26 69 255 255 255"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-11",
-					"linecount" : 2,
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 501.0, 258.5, 109.0, 35.0 ],
-					"text" : "frgb 255 255 255, brgb 0 0 255, clear"
+					"fontface" : 0,
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-9",
+					"maxclass" : "jit.fpsgui",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 323.0, 150.0, 80.0, 35.0 ]
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-8",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "jit_matrix", "" ],
-					"patching_rect" : [ 330.0, 265.0, 119.0, 22.0 ],
-					"text" : "jit.lcd 4 char 128 128"
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 251.0, 202.0, 35.0, 22.0 ],
+					"text" : "draw"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-154",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 300.0, 278.0, 29.5, 22.0 ],
+					"text" : "cls"
 				}
 
 			}
@@ -81,8 +82,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 289.0, 67.0, 77.0, 22.0 ],
-					"text" : "size 512 512"
+					"patching_rect" : [ 289.0, 67.0, 90.0, 22.0 ],
+					"text" : "size 1024 1024"
 				}
 
 			}
@@ -222,7 +223,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-8", 0 ],
+					"destination" : [ "obj-9", 0 ],
 					"order" : 0,
 					"source" : [ "obj-1", 1 ]
 				}
@@ -230,15 +231,8 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-8", 0 ],
-					"source" : [ "obj-11", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-8", 0 ],
-					"source" : [ "obj-13", 0 ]
+					"destination" : [ "obj-6", 0 ],
+					"source" : [ "obj-154", 0 ]
 				}
 
 			}
@@ -298,8 +292,22 @@
 				}
 
 			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 0 ],
+					"source" : [ "obj-8", 0 ]
+				}
+
+			}
  ],
-		"dependency_cache" : [  ],
+		"dependency_cache" : [ 			{
+				"name" : "pico.js",
+				"bootpath" : "~/Documents/Max 8/Projects/stuff/code",
+				"patcherrelativepath" : "../code",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+ ],
 		"autosave" : 0
 	}
 
