@@ -144,8 +144,11 @@ function rect_clip(_ref2) {
   };
 }
 
-function rectfill(x0, y0, x1, y1) {
-  var c = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : penColor;
+function rectfill(x0, y0, x1, y1, c) {
+  x0 = trunc(x0);
+  y0 = trunc(y0);
+  x1 = trunc(x1);
+  y1 = trunc(y1);
 
   if (x0 > x1) {
     ;
@@ -163,7 +166,102 @@ function rectfill(x0, y0, x1, y1) {
 
   for (var x = x0; x < x1; x++) {
     for (var y = y0; y < y1; y++) {
-      pset(x, y, red, green, blue);
+      pset(x, y, c);
+    }
+  }
+}
+
+function rect(x0, y0, x1, y1, c) {
+  x0 = trunc(x0);
+  y0 = trunc(y0);
+  x1 = trunc(x1);
+  y1 = trunc(y1);
+
+  if (x0 > x1) {
+    ;
+    var _ref5 = [x1, x0];
+    x0 = _ref5[0];
+    x1 = _ref5[1];
+  }
+
+  if (y0 > y1) {
+    ;
+    var _ref6 = [y1, y0];
+    y0 = _ref6[0];
+    y1 = _ref6[1];
+  }
+
+  for (var x = x0; x <= x1; x++) {
+    pset(x, y0, c);
+    pset(x, y1, c);
+  }
+
+  for (var y = y0; y <= y1; y++) {
+    pset(x0, y, c);
+    pset(x1, y, c);
+  }
+}
+
+function circ(x, y, r, c) {
+  x = trunc(x);
+  y = trunc(y);
+  r = trunc(r);
+  var offx = r;
+  var offy = 0;
+  var decisionOver2 = 1 - offx; // Decision criterion divided by 2 evaluated at x=r, y=0
+
+  while (offy <= offx) {
+    pset(offx + x, offy + y, c); // Octant 1
+
+    pset(offy + x, offx + y, c); // Octant 2
+
+    pset(-offx + x, offy + y, c); // Octant 4
+
+    pset(-offy + x, offx + y, c); // Octant 3
+
+    pset(-offx + x, -offy + y, c); // Octant 5
+
+    pset(-offy + x, -offx + y, c); // Octant 6
+
+    pset(offx + x, -offy + y, c); // Octant 7
+
+    pset(offy + x, -offx + y, c); // Octant 8
+
+    offy++;
+
+    if (decisionOver2 <= 0) {
+      decisionOver2 += 2 * offy + 1; // Change in decision criterion for y -> y+1
+    } else {
+      offx--;
+      decisionOver2 += 2 * (offy - offx) + 1; // Change for y -> y+1, x -> x-1
+    }
+  }
+}
+
+function circfill(x, y, r, c) {
+  x = trunc(x);
+  y = trunc(y);
+  r = trunc(r);
+  var offx = r;
+  var offy = 0;
+  var decisionOver2 = 1 - offx; // Decision criterion divided by 2 evaluated at x=r, y=0
+
+  while (offy <= offx) {
+    line(offx + x, offy + y, -offx + x, offy + y, c); // Octant 1
+
+    line(offy + x, offx + y, -offy + x, offx + y, c); // Octant 2
+
+    line(-offx + x, -offy + y, offx + x, -offy + y, c); // Octant 5
+
+    line(-offy + x, -offx + y, offy + x, -offx + y, c); // Octant 6
+
+    offy++;
+
+    if (decisionOver2 <= 0) {
+      decisionOver2 += 2 * offy + 1; // Change in decision criterion for y -> y+1
+    } else {
+      offx--;
+      decisionOver2 += 2 * (offy - offx) + 1; // Change for y -> y+1, x -> x-1
     }
   }
 }
@@ -220,6 +318,10 @@ function line(x0, y0, x1, y1) {
 
 var iii = 0;
 
+function t() {
+  return iii / 60.0;
+}
+
 function chimes() {
   cls(7);
   var u = iii / 60.0 / 4;
@@ -246,6 +348,65 @@ function chimes() {
   }
 }
 
+function headache() {
+  /*
+  	p,q={},{}
+  for i=0,31 do
+  	add(p,{y=i*4})
+  end
+  for i=0,4 do
+  	add(q,{x=i*37,v=i})
+  end
+  ::_::
+  cls(7)
+  for v in all(p) do
+  	if (v.y<127) 
+  		v.y+=1
+  	else
+  		v.y=0
+  		line(0,v.y,127,v.y,0)
+  	end
+  	for v in all(q) do
+  		if (v.x>-20) 
+  			v.x-=1
+  		else
+  		v.x=164
+  	circfill(
+  		v.x,
+  		64 + sin(t() + v.v / 5) * 5,
+  		20,
+  		7
+  	)
+  end
+  flip()
+  goto _
+  	*/
+}
+
+function tree_with_moon() {// 	f=circfill
+  // 	function b(u,v,a,l) {
+  // 		let x=u+cos(a)*l
+  // 		let y=v+sin(a)*l
+  // 		let s
+  // 		if(l<2) {
+  // 			f(u,v+4,4,3)
+  // 			f(u+2,v,2,11)
+  // 			return
+  // 		}
+  // 		q+=1.5
+  // 		s=.06+cos(x/50+t()/3)/l/6
+  // 		for (let w=0; w <= l / 5; w++) {
+  // 			line(u+w,v,x+w,y,w>l/9 && 9 || 4)
+  // 		}
+  // 		b(x,y,a-s,l-q%5)
+  // 		b(x,y,a+s,l-q%5)
+  // }
+  // 	cls()
+  // 	f(94,34,29,7)
+  // 	q=0
+  // 	b(9,130,.2,22)
+}
+
 function bang() {
   // for (let index = 0; index < 100; index++) {
   // 	line(
@@ -268,7 +429,16 @@ function bang() {
   // 	i = 0
   // 	cls()
   // }
-  chimes();
+  // chimes()
+  cls(7);
+  var a = 0; //flr(t() * 30) % 3
+
+  for (var i = 0; i < 43; i++) {
+    line(0, i * 3 + a, 127, i * 3 + a, 0);
+  }
+
+  circfill(64 + sin(t()) * 30 * sin(t() / 10), 64 + cos(t()) * 30 * sin(t() / 10), 25 * (sin(t() / 7) + 1) + 10, 7);
+  circ(64 + sin(t()) * 30 * sin(t() / 10), 64 + cos(t()) * 30 * sin(t() / 10), 25 * (sin(t() / 7) + 1) + 10, 0);
   iii++;
   outlet(0, 'jit_matrix', screen.name);
 }
